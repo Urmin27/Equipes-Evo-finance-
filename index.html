@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EVO-FINANCE - Accueil</title>
+  <style>
+    /* Styles fototra */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #1a3b6e;
+      color: #fff;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      text-align: center;
+    }
+    a {
+      color: #ff9800;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    button {
+      cursor: pointer;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff9800;
+      color: #fff;
+      font-weight: bold;
+      margin: 5px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #e68900;
+    }
+    table {
+      width: 90%;
+      margin: 10px auto;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.1);
+    }
+    table, th, td {
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    /* Notifications */
+    #center-notification, #top-notification {
+      display: none;
+      position: fixed;
+      background: rgba(0,0,0,0.85);
+      padding: 10px 20px;
+      border-radius: 5px;
+      z-index: 1100;
+      font-size: 1.2em;
+    }
+    #center-notification {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #top-notification {
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    /* Sidebar Menu */
+    #menu-button {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1200;
+      background: rgba(0,0,0,0.7);
+      padding: 5px 10px;
+      border-radius: 50%;
+    }
+    #side-menu {
+      display: none;
+      position: fixed;
+      top: 50px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1200;
+    }
+    #side-menu ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    #side-menu li {
+      margin: 5px 0;
+    }
+    #side-menu a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    #side-menu a:hover {
+      text-decoration: underline;
+    }
+    /* Sections */
+    section {
+      margin-bottom: 40px;
+    }
+    #investment-plan {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation amin'ny pejy hafa -->
+  <div style="text-align:center; margin-bottom:20px;">
+    <a href="auth.html" style="margin-right:20px;">S'inscrire / Se connecter</a>
+    <a href="team.html">Gestion d'équipes</a>
+  </div>
+  
+  <!-- Three Dots Menu -->
+  <div id="menu-button">⋮</div>
+  <!-- Sidebar Menu -->
+  <div id="side-menu">
+    <ul>
+      <li><a href="https://example.com/damnade-retrait" target="_blank">Damnade du retrait</a></li>
+      <li><a href="https://example.com/demande-depot" target="_blank">demande du dépôt</a></li>
+      <li><a href="https://example.com/besoin-daide" target="_blank">besoin d'aide</a></li>
+      <li><a href="https://example.com/profil-entreprise" target="_blank">Profil de l'entreprise</a></li>
+      <li><a href="https://example.com/service-client" target="_blank">service client</a></li>
+      <li><a href="https://example.com/gestion-equipes" target="_blank">Gestion d'aquipes</a></li>
+      <li><a href="https://example.com/se-deconnecter" target="_blank">se deconnecter</a></li>
+    </ul>
+  </div>
+  
+  <h1>EVO-FINANCE</h1>
+  
+  <!-- Section : Solde & Trading -->
+  <section id="section-solde">
+    <h2>Solde du Dépôt et Solde des Gains</h2>
+    <p>Dépôt : $<span id="soldeDepot">0.00</span></p>
+    <p>Gains : $<span id="soldeGains">0.00</span></p>
+    <button id="start-trading">Commencer à Trading</button>
+    <div id="trading-animation">Animation de Trading... Patientez 20 secondes...</div>
+    <table id="investment-plan">
+      <thead>
+        <tr>
+          <th>Niveau</th>
+          <th>Dépôt Minimum</th>
+          <th>Gains Quotidien</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Niveau 1</td>
+          <td>$15</td>
+          <td>1.5% par jour</td>
+        </tr>
+        <tr>
+          <td>Niveau 2</td>
+          <td>$200</td>
+          <td>1.6% par jour</td>
+        </tr>
+        <tr>
+          <td>Niveau 3</td>
+          <td>$1000</td>
+          <td>1.8% par jour</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  
+  <!-- Section : Transactions -->
+  <section id="section-transaction">
+    <h2>Transactions</h2>
+    <div style="text-align:center;">
+      <button id="btn-depot">Dépôt</button>
+      <button id="btn-retrait">Retrait</button>
+    </div>
+    <div id="form-depot" class="form-container">
+      <h3>Dépôt</h3>
+      <label>Montant ($) : 
+        <input type="number" id="depot-amount">
+      </label>
+      <label>Adresse du Dépôt :
+        <select id="depot-address">
+          <option value="adresse1" data-address="0x123456789ABCDEF">Adresse 1</option>
+          <option value="adresse2" data-address="0xFEDCBA987654321">Adresse 2</option>
+        </select>
+        <button id="copy-depot-address" class="small-btn">Copier</button>
+      </label>
+      <button id="submit-depot">Valider le Dépôt</button>
+    </div>
+    <div id="form-retrait" class="form-container">
+      <h3>Retrait</h3>
+      <label>Montant ($) : 
+        <input type="number" id="retrait-amount">
+      </label>
+      <label>Adresse du Retrait (USDT BEP20 / PAYEER) : 
+        <input type="text" id="retrait-address">
+      </label>
+      <button id="submit-retrait">Valider le Retrait</button>
+    </div>
+  </section>
+  
+  <!-- Section : Confirmation -->
+  <section class="confirmation" id="section-confirmation">
+    <h2>Tableau de Confirmation</h2>
+    <button id="access-confirmation">Accéder au Tableau de Confirmation</button>
+    <div id="confirmation-area" style="display:none;">
+      <table id="confirmation-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Client</th>
+            <th>Type</th>
+            <th>Montant</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+  
+  <!-- Section : Historique -->
+  <section class="historique" id="section-historique">
+    <h2>Historique des Transactions</h2>
+    <table id="historique-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client</th>
+          <th>Type</th>
+          <th>Montant</th>
+          <th>Date</th>
+          <th>Résultat</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+  
+  <!-- Notifications et Journal -->
+  <div id="center-notification"></div>
+  <div id="top-notification"></div>
+  <div id="notification-log"></div>
+  
+  <script>
+    /********* Variables & Initialisation *********/
+    let soldeDepot = parseFloat(localStorage.getItem("soldeDepot")) || 0;
+    let soldeGains = parseFloat(localStorage.getItem("soldeGains")) || 0;
+    let lastTradingDate = localStorage.getItem("lastTradingDate") || "";
+    let lastDeposit = localStorage.getItem("lastDeposit") || "";
+    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    const clientID = "Client1";
+    
+    function updateBalances() {
+      document.getElementById("soldeDepot").innerText = soldeDepot.toFixed(2);
+      document.getElementById("soldeGains").innerText = soldeGains.toFixed(2);
+      localStorage.setItem("soldeDepot", soldeDepot);
+      localStorage.setItem("soldeGains", soldeGains);
+    }
+    function addLog(message) {
+      const log = document.getElementById("notification-log");
+      const p = document.createElement("p");
+      p.innerText = message;
+      log.appendChild(p);
+    }
+    function showCenteredNotification(message, duration) {
+      const centerNotif = document.getElementById("center-notification");
+      centerNotif.innerText = message;
+      centerNotif.style.display = "block";
+      setTimeout(() => { centerNotif.style.display = "none"; }, duration);
+    }
+    function showTopNotification(message, duration) {
+      const topNotif = document.getElementById("top-notification");
+      topNotif.innerText = message;
+      topNotif.style.display = "block";
+      setTimeout(() => { topNotif.style.display = "none"; }, duration);
+    }
+    updateBalances();
+    
+    /********* Section : Trading *********/
+    document.getElementById("start-trading").addEventListener("click", function(){
+      const today = new Date().toDateString();
+      if(lastTradingDate === today) {
+        alert("Vous ne pouvez commencer à trading qu'une fois par jour.");
+        return;
+      }
+      if(soldeDepot < 15) {
+        alert("Un dépôt minimum de $15 est requis pour commencer à trading.");
+        return;
+      }
+      let percentage = 0.015;
+      if(soldeDepot >= 1000) {
+        percentage = 0.018;
+      } else if(soldeDepot >= 200) {
+        percentage = 0.016;
+      }
+      const anim = document.getElementById("trading-animation");
+      anim.style.display = "block";
+      setTimeout(function(){
+        anim.style.display = "none";
+        const gain = soldeDepot * percentage;
+        soldeGains += gain;
+        updateBalances();
+        addLog("Trading confirmé : Gain de $" + gain.toFixed(2) + " ajouté.");
+        showTopNotification("Trading terminé! Gains totaux: $" + soldeGains.toFixed(2), 3000);
+      }, 20000);
+      lastTradingDate = today;
+      localStorage.setItem("lastTradingDate", today);
+    });
+    
+    /********* Section : Transactions *********/
+    document.getElementById("btn-depot").addEventListener("click", function(){
+      document.getElementById("form-depot").style.display = "block";
+      document.getElementById("form-retrait").style.display = "none";
+    });
+    document.getElementById("btn-retrait").addEventListener("click", function(){
+      document.getElementById("form-retrait").style.display = "block";
+      document.getElementById("form-depot").style.display = "none";
+    });
+    document.getElementById("copy-depot-address").addEventListener("click", function(){
+      const select = document.getElementById("depot-address");
+      const addr = select.options[select.selectedIndex].getAttribute("data-address");
+      navigator.clipboard.writeText(addr)
+        .then(() => { alert("Adresse copiée : " + addr); })
+        .catch(() => { alert("Erreur lors de la copie de l'adresse."); });
+    });
+    document.getElementById("submit-depot").addEventListener("click", function(){
+      const amount = parseFloat(document.getElementById("depot-amount").value);
+      const select = document.getElementById("depot-address");
+      const addr = select.options[select.selectedIndex].getAttribute("data-address");
+      if(isNaN(amount) || amount <= 0) {
+        alert("Montant invalide.");
+        return;
+      }
+      const today = new Date().toDateString();
+      if(lastDeposit === today) {
+        alert("Vous ne pouvez déposer qu'une fois par jour.");
+        return;
+      }
+      const tx = {
+        id: Date.now(),
+        client: clientID,
+        type: "Dépôt",
+        amount: amount,
+        address: addr,
+        date: new Date().toLocaleString(),
+        status: "En attente"
+      };
+      transactions.push(tx);
+      localStorage.setItem("transactions", JSON.stringify(transactions));
+      lastDeposit = today;
+      localStorage.setItem("lastDeposit", today);
+      showCenteredNotification("Dépôt en attente de vérification.", 3000);
+      addLog("Dépôt en attente de vérification : $" + amount.toFixed(2));
+      document.getElementById("form-depot").style.display = "none";
+    });
+    document.getElementById("submit-retrait").addEventListener("click", function(){
+      const amount = parseFloat(document.getElementById("retrait-amount").value);
+      const addr = document.getElementById("retrait-address").value.trim();
+      if(isNaN(amount) || amount <= 0) {
+        alert("Montant invalide.");
+        return;
+      }
+      if(amount < 1) {
+        alert("Montant minimum de retrait est $1.");
+        return;
+      }
+      if(new Date().getDay() !== 1) {
+        alert("Les retraits ne sont autorisés que le lundi.");
+        return;
+      }
+      const tx = {
+        id: Date.now(),
+        client: clientID,
+        type: "Retrait",
+        amount: amount,
+        address: addr,
+        date: new Date().toLocaleString(),
+        status: "En attente"
+      };
+      transactions.push(tx);
+      localStorage.setItem("transactions", JSON.stringify(transactions));
+      showCenteredNotification("Retrait en attente de vérification.", 3000);
+      addLog("Retrait en attente de vérification : $" + amount.toFixed(2));
+      document.getElementById("form-retrait").style.display = "none";
+    });
+    
+    /********* Section : Confirmation *********/
+    document.getElementById("access-confirmation").addEventListener("click", function(){
+      const code = prompt("Veuillez entrer le code d'accès :");
+      if(code === "0808"){
+        document.getElementById("confirmation-area").style.display = "block";
+        updateConfirmationTable();
+      } else {
+        alert("Code incorrect !");
+      }
+    });
+    function updateConfirmationTable() {
+      const tbody = document.querySelector("#confirmation-table tbody");
+      tbody.innerHTML = "";
+      transactions.filter(t => t.status === "En attente").forEach(t => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${t.id}</td>
+          <td>${t.client}</td>
+          <td>${t.type}</td>
+          <td>$${t.amount.toFixed(2)}</td>
+          <td>${t.date}</td>
+          <td>
+            <button onclick="confirmTx(${t.id})">Confirmer</button>
+            <button onclick="cancelTx(${t.id})">Annuler</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    
+    /********* Section : Historique *********/
+    function updateHistoriqueTable() {
+      const tbody = document.querySelector("#historique-table tbody");
+      tbody.innerHTML = "";
+      transactions.filter(t => t.status === "Confirmé" || t.status === "Annulé")
+        .forEach(t => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${t.id}</td>
+            <td>${t.client}</td>
+            <td>${t.type}</td>
+            <td>$${t.amount.toFixed(2)}</td>
+            <td>${t.date}</td>
+            <td>${t.status === "Confirmé" ? "Succès" : "Échec"}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+    }
+    
+    window.confirmTx = function(id) {
+      const index = transactions.findIndex(t => t.id === id);
+      if(index > -1) {
+        const t = transactions[index];
+        if(t.type === "Dépôt") {
+          soldeDepot += t.amount;
+        } else if(t.type === "Retrait") {
+          const totalWithdrawal = t.amount * 1.10;
+          if(soldeGains >= totalWithdrawal) {
+            soldeGains -= totalWithdrawal;
+          } else {
+            alert("Solde des gains insuffisant pour ce retrait (incluant 10% de frais).");
+            return;
+          }
+        }
+        t.status = "Confirmé";
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+        updateBalances();
+        updateConfirmationTable();
+        updateHistoriqueTable();
+        addLog("Transaction confirmée (ID: " + t.id + ")");
+        showTopNotification("Misaotra tompoko", 3000);
+      }
+    };
+    window.cancelTx = function(id) {
+      const index = transactions.findIndex(t => t.id === id);
+      if(index > -1) {
+        const t = transactions[index];
+        t.status = "Annulé";
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+        updateConfirmationTable();
+        updateHistoriqueTable();
+        addLog("Transaction annulée (ID: " + t.id + ")");
+      }
+    };
+    
+    updateHistoriqueTable();
+    
+    /********* Sidebar Toggle *********/
+    const menuButton = document.getElementById("menu-button");
+    const sideMenu = document.getElementById("side-menu");
+    menuButton.addEventListener("click", () => {
+      if(sideMenu.style.display === "none" || sideMenu.style.display === ""){
+        sideMenu.style.display = "block";
+      } else {
+        sideMenu.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
+ 
