@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion d'équipes - EVO-FINANCE</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #1a3b6e;
+      color: #fff;
+      padding: 20px;
+    }
+    h1, h2, h3 {
+      text-align: center;
+    }
+    a {
+      color: #ff9800;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    button {
+      cursor: pointer;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff9800;
+      color: #fff;
+      font-weight: bold;
+      margin: 5px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #e68900;
+    }
+    table {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.1);
+    }
+    table, th, td {
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    #invitation-link {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Gestion d'équipes</h1>
+    <p>Votre lien d'invitation: <span id="invitation-link"></span></p>
+    <button id="copy-invitation-link">Copier le lien</button>
+    <h3>Liste des équipes validées</h3>
+    <table id="team-table">
+      <thead>
+        <tr>
+          <th>Nom et Prénom</th>
+          <th>Téléphone</th>
+          <th>Email</th>
+          <th>Statut</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="referral-bonus-section" style="text-align:center;">
+      <p>Bonus Referral accumulé: $<span id="referral-bonus">0.00</span></p>
+      <button id="add-referral-bonus" style="display:none;">Ajouter bonus</button>
+    </div>
+    <p style="text-align:center;"><a href="index.html">Retour à l'accueil</a></p>
+  </div>
+  
+  <script>
+    const INVITER_CODE = "MYINVITE";
+    function updateInvitationLink(){
+      // La racine (origin + pathname sans team.html)
+      const base = window.location.origin + window.location.pathname.replace("team.html","");
+      const link = base + "?ref=" + INVITER_CODE;
+      document.getElementById("invitation-link").innerText = link;
+    }
+    function updateTeamTable(){
+      let teamMembers = JSON.parse(localStorage.getItem("teamMembers")) || [];
+      // Afficher uniquement les membres validés
+      let validatedMembers = teamMembers.filter(member => member.validated);
+      const tbody = document.querySelector("#team-table tbody");
+      tbody.innerHTML = "";
+      validatedMembers.forEach(member => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = "<td>" + member.name + "</td><td>" + member.phone + "</td><td>" + member.email + "</td><td>Validé</td>";
+        tbody.appendChild(tr);
+      });
+    }
+    function updateReferralBonus(){
+      let bonus = parseFloat(localStorage.getItem("referralBonus")) || 0;
+      document.getElementById("referral-bonus").innerText = bonus.toFixed(2);
+      if(bonus >= 2) {
+        document.getElementById("add-referral-bonus").style.display = "block";
+      } else {
+        document.getElementById("add-referral-bonus").style.display = "none";
+      }
+    }
+    document.getElementById("copy-invitation-link").addEventListener("click", function(){
+      let link = document.getElementById("invitation-link").innerText;
+      navigator.clipboard.writeText(link)
+        .then(() => { alert("Lien copié : " + link); })
+        .catch(() => { alert("Erreur lors de la copie du lien."); });
+    });
+    document.getElementById("add-referral-bonus").addEventListener("click", function(){
+      let bonus = parseFloat(localStorage.getItem("referralBonus")) || 0;
+      let soldeGains = parseFloat(localStorage.getItem("soldeGains")) || 0;
+      soldeGains += bonus;
+      localStorage.setItem("soldeGains", soldeGains);
+      localStorage.setItem("referralBonus", 0);
+      updateReferralBonus();
+      alert("Bonus de $" + bonus.toFixed(2) + " ajouté aux gains.");
+    });
+    updateInvitationLink();
+    updateTeamTable();
+    updateReferralBonus();
+  </script>
+</body>
+</html>
+ 
